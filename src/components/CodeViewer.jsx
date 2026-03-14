@@ -4,145 +4,122 @@ const CodeViewer = () => {
   const [lang, setLang] = useState('js');
 
   const JS_CODE = (
-    <pre>
-<span className="cm">/**
+    <pre>{`/**
  * UASD — Algoritmo de Cálculo de Horas por Crédito
  * Ref: Normativa MESCYT — Crédito Académico Virtual
  * 1 CR presencial = 15 HT | 30 HP | 45 HI
- */</span>
+ */
 
-<span className="cm">// ── Constantes MESCYT ──────────────────────────────</span>
-<span className="kw">const</span> <span className="fn">CR_BASE</span> = {'{'};
-  HT_POR_CR: <span className="num">15</span>,   <span className="cm">// horas teóricas por crédito</span>
-  HP_POR_CR: <span className="num">30</span>,   <span className="cm">// horas prácticas por crédito</span>
-  HI_POR_CR: <span className="num">45</span>,   <span className="cm">// horas investigación por crédito</span>
-{'}'};
-
-<span className="cm">// ── Tipos de hora ──────────────────────────────────</span>
-<span className="kw">const</span> TIPO_HORA = {'{'};
-  HT:  <span className="str">'Horas Teóricas Presenciales'</span>,
-  HP:  <span className="str">'Horas Prácticas Presenciales'</span>,
-  HIV: <span className="str">'Horas de Interacción Virtual'</span>,
-  HPV: <span className="str">'Horas Prácticas Virtuales'</span>,
-  HI:  <span className="str">'Horas de Investigación'</span>,
-{'}'};
-
-<span className="cm">/**
+/**
  * Calcula las horas de una asignatura según su
  * distribución de créditos y modalidad.
- */</span>
-<span className="kw">function</span> <span className="fn">calcularHoras</span>(asignatura, modalidad) {'{'}
-  <span className="kw">const</span> {'{'} creditosHT = <span className="num">0</span>, creditosHP = <span className="num">0</span>, creditosHI = <span className="num">0</span> {'}'} = asignatura;
+ */
+function calcularHoras(asignatura, modalidad) {
+  const { creditosHT = 0, creditosHP = 0, creditosHI = 0 } = asignatura;
 
-  <span className="kw">let</span> resultado = {'{'} HT:<span className="num">0</span>, HP:<span className="num">0</span>, HIV:<span className="num">0</span>, HPV:<span className="num">0</span>, HI:<span className="num">0</span>, total:<span className="num">0</span> {'}'};
+  let resultado = { HT: 0, HP: 0, HIV: 0, HPV: 0, HI: 0, total: 0 };
 
-  <span className="kw">if</span> (modalidad === <span className="str">'presencial'</span>) {'{'}
+  if (modalidad === 'presencial') {
     resultado.HT = creditosHT * CR_BASE.HT_POR_CR;
     resultado.HP = creditosHP * CR_BASE.HP_POR_CR;
     resultado.HI = creditosHI * CR_BASE.HI_POR_CR;
-  {'}'}
-
-  <span className="kw">else if</span> (modalidad === <span className="str">'semipresencial'</span>) {'{'}
-    resultado.HT  = creditosHT * CR_BASE.HT_POR_CR * <span className="num">0.5</span>;
-    resultado.HP  = creditosHP * CR_BASE.HP_POR_CR * <span className="num">0.5</span>;
-    resultado.HIV = creditosHT * CR_BASE.HT_POR_CR * <span className="num">0.5</span>;
+  } else if (modalidad === 'semipresencial') {
+    resultado.HT  = creditosHT * CR_BASE.HT_POR_CR * 0.5;
+    resultado.HP  = creditosHP * CR_BASE.HP_POR_CR * 0.5;
+    resultado.HIV = creditosHT * CR_BASE.HT_POR_CR * 0.5;
     resultado.HI  = creditosHI * CR_BASE.HI_POR_CR;
-  {'}'}
-
-  <span className="kw">else if</span> (modalidad === <span className="str">'virtual'</span>) {'{'}
+  } else if (modalidad === 'virtual') {
     resultado.HIV = creditosHT * CR_BASE.HT_POR_CR;
     resultado.HPV = creditosHP * CR_BASE.HP_POR_CR;
     resultado.HI  = creditosHI * CR_BASE.HI_POR_CR;
-  {'}'}
+  }
 
   resultado.total = Object.values(resultado)
-    .filter((_, i) =<span>{'>'}</span> i <span>{'<'}</span> <span className="num">5</span>)
-    .reduce((a, b) =<span>{'>'}</span> a + b, <span className="num">0</span>);
+    .filter((_, i) => i < 5)
+    .reduce((a, b) => a + b, 0);
 
-  <span className="kw">return</span> resultado;
-{'}'}
-    </pre>
+  return resultado;
+}
+`}</pre>
   );
 
   const PY_CODE = (
-    <pre>
-<span className="cm"># UASD — Algoritmo de Créditos (Python)
-# Conforme normativa MESCYT</span>
+    <pre>{`# UASD — Algoritmo de Créditos (Python)
+# Conforme normativa MESCYT
 
-<span className="kw">from</span> dataclasses <span className="kw">import</span> dataclass, field
-<span className="kw">from</span> typing <span className="kw">import</span> Literal
+from dataclasses import dataclass, field
+from typing import Literal
 
-CR_BASE = {'{'}<span className="str">"HT"</span>: <span className="num">15</span>, <span className="str">"HP"</span>: <span className="num">30</span>, <span className="str">"HI"</span>: <span className="num">45</span>{'}'}
-Modalidad = Literal[<span className="str">"presencial"</span>, <span className="str">"semipresencial"</span>, <span className="str">"virtual"</span>]
+CR_BASE = {"HT": 15, "HP": 30, "HI": 45}
+Modalidad = Literal["presencial", "semipresencial", "virtual"]
 
-<span className="kw">@dataclass</span>
-<span className="kw">class</span> <span className="fn">Asignatura</span>:
+@dataclass
+class Asignatura:
     codigo: str
     nombre: str
-    creditos_HT: <span className="fn">float</span> = <span className="num">0</span>
-    creditos_HP: <span className="fn">float</span> = <span className="num">0</span>
-    creditos_HI: <span className="fn">float</span> = <span className="num">0</span>
+    creditos_HT: float = 0
+    creditos_HP: float = 0
+    creditos_HI: float = 0
 
-    <span className="kw">@property</span>
-    <span className="kw">def</span> <span className="fn">total_creditos</span>(self) -<span>{'>'}</span> <span className="fn">float</span>:
-        <span className="kw">return</span> self.creditos_HT + self.creditos_HP + self.creditos_HI
+    @property
+    def total_creditos(self) -> float:
+        return self.creditos_HT + self.creditos_HP + self.creditos_HI
 
-<span className="kw">def</span> <span className="fn">calcular_horas</span>(a: Asignatura, modalidad: Modalidad) -<span>{'>'}</span> <span className="fn">dict</span>:
-    r = {'{'}<span className="str">"HT"</span>:<span className="num">0</span>, <span className="str">"HP"</span>:<span className="num">0</span>, <span className="str">"HIV"</span>:<span className="num">0</span>, <span className="str">"HPV"</span>:<span className="num">0</span>, <span className="str">"HI"</span>:<span className="num">0</span>{'}'}
 
-    <span className="kw">if</span> modalidad == <span className="str">"presencial"</span>:
-        r[<span className="str">"HT"</span>] = a.creditos_HT * CR_BASE[<span class="str">"HT"</span>]
-        r[<span className="str">"HP"</span>] = a.creditos_HP * CR_BASE[<span class="str">"HP"</span>]
-        r[<span className="str">"HI"</span>] = a.creditos_HI * CR_BASE[<span class="str">"HI"</span>]
+def calcular_horas(a: Asignatura, modalidad: Modalidad) -> dict:
+    r = {"HT":0, "HP":0, "HIV":0, "HPV":0, "HI":0}
 
-    <span className="kw">elif</span> modalidad == <span className="str">"semipresencial"</span>:
-        r[<span className="str">"HT"</span>]  = a.creditos_HT * CR_BASE[<span class="str">"HT"</span>] * <span className="num">0.5</span>
-        r[<span className="str">"HP"</span>]  = a.creditos_HP * CR_BASE[<span class="str">"HP"</span>] * <span className="num">0.5</span>
-        r[<span className="str">"HIV"</span>] = a.creditos_HT * CR_BASE[<span class="str">"HT"</span>] * <span className="num">0.5</span>
-        r[<span className="str">"HI"</span>]  = a.creditos_HI * CR_BASE[<span class="str">"HI"</span>]
+    if modalidad == "presencial":
+        r["HT"] = a.creditos_HT * CR_BASE["HT"]
+        r["HP"] = a.creditos_HP * CR_BASE["HP"]
+        r["HI"] = a.creditos_HI * CR_BASE["HI"]
 
-    <span className="kw">elif</span> modalidad == <span className="str">"virtual"</span>:
-        r[<span className="str">"HIV"</span>] = a.creditos_HT * CR_BASE[<span className="str">"HT"</span>]
-        r[<span className="str">"HPV"</span>] = a.creditos_HP * CR_BASE[<span className="str">"HP"</span>]
-        r[<span className="str">"HI"</span>]  = a.creditos_HI * CR_BASE[<span className="str">"HI"</span>]
+    elif modalidad == "semipresencial":
+        r["HT"]  = a.creditos_HT * CR_BASE["HT"] * 0.5
+        r["HP"]  = a.creditos_HP * CR_BASE["HP"] * 0.5
+        r["HIV"] = a.creditos_HT * CR_BASE["HT"] * 0.5
+        r["HI"]  = a.creditos_HI * CR_BASE["HI"]
 
-    r[<span className="str">"total"</span>] = <span className="fn">sum</span>(v <span className="kw">for</span> k, v <span className="kw">in</span> r.items() <span className="kw">if</span> k != <span className="str">"total"</span>)
-    <span className="kw">return</span> r
-    </pre>
+    elif modalidad == "virtual":
+        r["HIV"] = a.creditos_HT * CR_BASE["HT"]
+        r["HPV"] = a.creditos_HP * CR_BASE["HP"]
+        r["HI"]  = a.creditos_HI * CR_BASE["HI"]
+
+    r["total"] = sum(v for k, v in r.items() if k != "total")
+    return r
+`}</pre>
   );
 
   const SQL_CODE = (
-    <pre>
-<span className="cm">-- UASD Plataforma Curricular — Schema Base de Datos</span>
-<span className="kw">CREATE TABLE</span> <span className="fn">carreras</span> ({'('}
-  id          <span className="kw">SERIAL PRIMARY KEY</span>,
-  codigo      <span className="fn">VARCHAR</span>(<span class="num">10</span>) <span className="kw">UNIQUE NOT NULL</span>,
-  nombre      <span className="fn">VARCHAR</span>(<span class="num">120</span>) <span className="kw">NOT NULL</span>,
-  facultad    <span className="fn">VARCHAR</span>(<span class="num">80</span>),
-  modalidad   <span className="fn">VARCHAR</span>(<span class="num">20</span>) <span className="kw">CHECK</span> (modalidad <span className="kw">IN</span> (
-                <span className="str">'presencial'</span>,<span className="str">'semipresencial'</span>,<span className="str">'virtual'</span>{'))'},
-  creditos_totales <span className="fn">SMALLINT</span>,
-  estado      <span className="fn">VARCHAR</span>(<span class="num">15</span>) <span className="kw">DEFAULT</span> <span class="str">'propuesta'</span>,
-  created_at  <span className="fn">TIMESTAMP DEFAULT NOW</span>()
-{');'}
+    <pre>{`-- UASD Plataforma Curricular — Schema Base de Datos
+CREATE TABLE carreras (
+  id          SERIAL PRIMARY KEY,
+  codigo      VARCHAR(10) UNIQUE NOT NULL,
+  nombre      VARCHAR(120) NOT NULL,
+  facultad    VARCHAR(80),
+  modalidad   VARCHAR(20) CHECK (modalidad IN ('presencial','semipresencial','virtual')),
+  creditos_totales SMALLINT,
+  estado      VARCHAR(15) DEFAULT 'propuesta',
+  created_at  TIMESTAMP DEFAULT NOW()
+);
 
-<span className="kw">CREATE TABLE</span> <span className="fn">asignaturas</span> ({'('}
-  id          <span className="kw">SERIAL PRIMARY KEY</span>,
-  carrera_id  <span className="fn">INT REFERENCES</span> carreras(id),
-  codigo      <span className="fn">VARCHAR</span>(<span class="num">12</span>) <span className="kw">NOT NULL</span>,
-  nombre      <span className="fn">VARCHAR</span>(<span class="num">120</span>) <span className="kw">NOT NULL</span>,
-  semestre    <span className="fn">SMALLINT</span>,
-  cr_HT       <span className="fn">NUMERIC</span>(<span class="num">4</span>,<span class="num">1</span>) <span className="kw">DEFAULT</span> <span class="num">0</span>,
-  cr_HP       <span className="fn">NUMERIC</span>(<span class="num">4</span>,<span class="num">1</span>) <span className="kw">DEFAULT</span> <span class="num">0</span>,
-  cr_HI       <span className="fn">NUMERIC</span>(<span class="num">4</span>,<span class="num">1</span>) <span className="kw">DEFAULT</span> <span class="num">0</span>,
-  horas_HT    <span className="fn">NUMERIC</span>(<span class="num">6</span>,<span class="num">1</span>),
-  horas_HP    <span className="fn">NUMERIC</span>(<span class="num">6</span>,<span class="num">1</span>),
-  horas_HIV   <span className="fn">NUMERIC</span>(<span class="num">6</span>,<span class="num">1</span>),
-  horas_HPV   <span className="fn">NUMERIC</span>(<span class="num">6</span>,<span class="num">1</span>),
-  horas_HI    <span className="fn">NUMERIC</span>(<span class="num">6</span>,<span class="num">1</span>),
-  prerequisito_id <span className="fn">INT REFERENCES</span> asignaturas(id)
-{');'}
-    </pre>
+CREATE TABLE asignaturas (
+  id          SERIAL PRIMARY KEY,
+  carrera_id  INT REFERENCES carreras(id),
+  codigo      VARCHAR(12) NOT NULL,
+  nombre      VARCHAR(120) NOT NULL,
+  semestre    SMALLINT,
+  cr_HT       NUMERIC(4,1) DEFAULT 0,
+  cr_HP       NUMERIC(4,1) DEFAULT 0,
+  cr_HI       NUMERIC(4,1) DEFAULT 0,
+  horas_HT    NUMERIC(6,1),
+  horas_HP    NUMERIC(6,1),
+  horas_HIV   NUMERIC(6,1),
+  horas_HPV   NUMERIC(6,1),
+  horas_HI    NUMERIC(6,1),
+  prerequisito_id INT REFERENCES asignaturas(id)
+);
+`}</pre>
   );
 
   return (
