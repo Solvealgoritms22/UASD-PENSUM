@@ -84,7 +84,7 @@ const Calculator = () => {
                 />
               </div>
             </div>
-          </div>
+          </div>s
         </div>
 
         {/* Resultados */}
