@@ -56,8 +56,8 @@ const CodeViewer = () => {
   {'}'}
 
   resultado.total = Object.values(resultado)
-    .filter((_, i) => i {'<'} 5)
-    .reduce((a, b) => a + b, 0);
+    .filter((_, i) =<span>{'>'}</span> i <span>{'<'}</span> <span className="num">5</span>)
+    .reduce((a, b) =<span>{'>'}</span> a + b, <span className="num">0</span>);
 
   <span className="kw">return</span> resultado;
 {'}'}
@@ -84,10 +84,10 @@ Modalidad = Literal[<span className="str">"presencial"</span>, <span className="
     creditos_HI: <span className="fn">float</span> = <span className="num">0</span>
 
     <span className="kw">@property</span>
-    <span className="kw">def</span> <span className="fn">total_creditos</span>(self) {'->'} <span className="fn">float</span>:
+    <span className="kw">def</span> <span className="fn">total_creditos</span>(self) -<span>{'>'}</span> <span className="fn">float</span>:
         <span className="kw">return</span> self.creditos_HT + self.creditos_HP + self.creditos_HI
 
-<span className="kw">def</span> <span className="fn">calcular_horas</span>(a: Asignatura, modalidad: Modalidad) {'->'} <span className="fn">dict</span>:
+<span className="kw">def</span> <span className="fn">calcular_horas</span>(a: Asignatura, modalidad: Modalidad) -<span>{'>'}</span> <span className="fn">dict</span>:
     r = {'{'}<span className="str">"HT"</span>:<span className="num">0</span>, <span className="str">"HP"</span>:<span className="num">0</span>, <span className="str">"HIV"</span>:<span className="num">0</span>, <span className="str">"HPV"</span>:<span className="num">0</span>, <span className="str">"HI"</span>:<span className="num">0</span>{'}'}
 
     <span className="kw">if</span> modalidad == <span className="str">"presencial"</span>:
